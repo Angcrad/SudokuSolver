@@ -24,6 +24,7 @@ namespace SudokuSolver
 			this.TextAlign = ContentAlignment.MiddleCenter;
 			this.Size = new Size(75, 75);
 			this.Margin = new Padding(1);
+
 		}
 		private String FormatValues(List<int> values)
 		{

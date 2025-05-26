@@ -21,7 +21,7 @@ namespace SudokuSolver
 			this.Text = value.ToString();
 			this.Font = new Font("Segoe UI", 12, FontStyle.Bold);
 			this.TextAlign = ContentAlignment.MiddleCenter;
-			this.Size = new Size(60, 60);
+			this.Size = new Size(75, 75);
 			this.Margin = new Padding(1);
 		}
 	}
