@@ -86,6 +86,7 @@ namespace SudokuSolver
 				//OnValueSet?.Invoke(RowID, ColID, value);
 			}
 		}
+		
 
 	}
 

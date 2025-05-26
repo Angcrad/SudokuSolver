@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing;
 using System.Windows.Forms;
-
 namespace SudokuSolver
 {
 
@@ -29,53 +28,27 @@ namespace SudokuSolver
 			updateTimer.Tick += UpdateLoop;
 			updateTimer.Start();
 		}
-		private void ReSetCandidates()
-		{
-			for (int r = 0; r < 9; r++)
-			{
-				for (int c = 0; c < 9; c++)
-				{
-					if (r == 4 && c == 4)
-					{
-						r = r;
-					}
-					if (gridSquares[r, c].Value == 0)
-					{
-						gridSquares[r, c].Values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-					}
-				}
-			}
-		}
+		
 		private void UpdateLoop(object sender, EventArgs e)
 		{
-			ReSetCandidates();
-			CheckRow();
-			CheckCol();
-			CheckBox(0, 0);
-			CheckBox(3, 0);
-			CheckBox(6, 0);
-			CheckBox(0, 3);
-			CheckBox(3, 3);
-			CheckBox(6, 3);
-			CheckBox(0, 6);
-			CheckBox(3, 6);
-			CheckBox(6, 6);
-			SetText();
-		}
-		private void SetText()
-		{
-			for (int row = 0; row < 9; row++)
+			if(Helpers.IsAllRight(gridSquares))
 			{
-				for (int col = 0; col < 9; col++)
-				{
-					if (gridSquares[row, col].Value == 5 && row == 2 && col == 2)
-					{
-						row = row;
-					}
-					gridSquares[row, col].Text = GridSquare.FormatValues(gridSquares[row, col].Values, gridSquares[row, col].Value);
-				}
+				Helpers.ReSetCandidates(ref gridSquares);
+				Helpers.CheckRow(ref gridSquares);
+				Helpers.CheckCol(ref gridSquares);
+				Helpers.CheckBox(0, 0, ref gridSquares);
+				Helpers.CheckBox(3, 0, ref gridSquares);
+				Helpers.CheckBox(6, 0, ref gridSquares);
+				Helpers.CheckBox(0, 3, ref gridSquares);
+				Helpers.CheckBox(3, 3, ref gridSquares);
+				Helpers.CheckBox(6, 3, ref gridSquares);
+				Helpers.CheckBox(0, 6, ref gridSquares);
+				Helpers.CheckBox(3, 6, ref gridSquares);
+				Helpers.CheckBox(6, 6, ref gridSquares);
+				Helpers.SetText(ref gridSquares);
 			}
 		}
+		
 		private void InitializeGrid()
 		{
 			int spacing = CellSize + 2 * MarginSize;
@@ -106,9 +79,7 @@ namespace SudokuSolver
 
 				}
 			}
-
 			panelGrid.Paint += DrawGridLines;
-
 			// Resize form to fit grid
 			this.ClientSize = new Size(panelGrid.Right + 10, panelGrid.Bottom + 10);
 		}
@@ -137,71 +108,7 @@ namespace SudokuSolver
 				}
 			}*/
 		}
-		private void CheckRow()
-		{
-			for (int row = 0; row < 9; row++)
-			{
-				for (int col = 0; col < 9; col++)
-				{
-					if (gridSquares[row, col].Value != 0)
-					{
-						for (int c = 0; c < 9; c++)
-						{
-							if (gridSquares[row, c].Values.Count > 0)
-							{
-								gridSquares[row, c].Values.Remove(gridSquares[row, col].Value);
-							}
-						}
-					}
-				}
-			}
-		}
-		private void CheckCol()
-		{
-			for (int row = 0; row < 9; row++)
-			{
-				for (int col = 0; col < 9; col++)
-				{
-					if (gridSquares[row, col].Value != 0)
-					{
-						for (int r = 0; r < 9; r++)
-						{
-							if (gridSquares[r, col].Values.Count > 0)
-							{
-								gridSquares[r, col].Values.Remove(gridSquares[row, col].Value);
-							}
-						}
-					}
-				}
-			}
-		}
-		private void CheckBox(int fila, int columna)
-		{
-			for (int row = fila; row < fila + 3; row++)
-			{
-				for (int col = columna; col < columna + 3; col++)
-				{
-					if (gridSquares[row, col].Value != 0)
-					{
-						for (int r = fila; r < fila + 3; r++)
-						{
-							for (int c = columna; c < columna + 3; c++)
-							{
-								if (gridSquares[r, c].Values.Count > 0)
-								{
-									gridSquares[r, c].Values.Remove(gridSquares[row, col].Value);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		private bool SameBox(int r1, int c1, int r2, int c2)
-		{
-			return (r1 / 3 == r2 / 3) && (c1 / 3 == c2 / 3);
-		}
-
+		
 		private void DrawGridLines(object sender, PaintEventArgs e)
 		{
 			int spacing = CellSize + 2 * MarginSize;
