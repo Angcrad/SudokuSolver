@@ -34,6 +34,7 @@
 			// panelGrid
 			// 
 			panelGrid.AutoScroll = true;
+			panelGrid.AutoSize = true;
 			panelGrid.Location = new Point(0, 0);
 			panelGrid.Name = "panelGrid";
 			panelGrid.Size = new Size(450, 450);
@@ -48,6 +49,7 @@
 			Name = "Form1";
 			Text = "Form1";
 			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion

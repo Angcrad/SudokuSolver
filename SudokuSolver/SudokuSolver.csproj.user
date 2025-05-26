@@ -7,5 +7,8 @@
     <Compile Update="GridSquare.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="SimpleSquare.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -3,42 +3,67 @@ namespace SudokuSolver
 	public partial class Form1 : Form
 	{
 		private const int GridSize = 9;
-		private List<int> numbers;
-
+		private TableLayoutPanel tableBaseGrid;
+		private TableLayoutPanel tableOverlayGrid;
+		private readonly int squareSize = 75;      // Match button size
 		public Form1()
 		{
 			InitializeComponent();
-			InitializeNumbers();
-			GenerateGrid();
+			GenerateBaseGrid();
+			GenerateOverlayGrid();
 		}
-
-		private void InitializeNumbers()
+		private void GenerateOverlayGrid()
 		{
-			numbers = new List<int>();
-			var rand = new Random();
-			for (int i = 0; i < GridSize * GridSize; i++)
-			{
-				numbers.Add(rand.Next(1, 100)); // or however you want to fill it
-			}
-		}
-		private void GenerateGrid()
-		{
-			panelGrid.Controls.Clear();
-			panelGrid.SuspendLayout();
-			panelGrid.AutoSize = true;
-
-			var table = new TableLayoutPanel
+			tableOverlayGrid = new TableLayoutPanel
 			{
 				RowCount = GridSize,
 				ColumnCount = GridSize,
-				Dock = DockStyle.Fill,
-				AutoSize = true
+				AutoSize = true,
+				Location = new Point(0, 0),
+				BackColor = Color.Transparent
 			};
 
 			for (int i = 0; i < GridSize; i++)
 			{
-				table.RowStyles.Add(new RowStyle(SizeType.Absolute, 75));
-				table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75));
+				tableOverlayGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, squareSize));
+				tableOverlayGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, squareSize));
+			}
+
+			var rand = new Random();
+
+			for (int row = 0; row < GridSize; row++)
+			{
+				for (int col = 0; col < GridSize; col++)
+				{
+					int value = rand.Next(0, 15);
+					var square = new SimpleSquare(row + 1, col + 1, value)
+					{
+						Visible = value >= 1 && value <= 9,
+						FlatStyle = FlatStyle.Flat,
+						BackColor = Color.Transparent
+					};
+
+					tableOverlayGrid.Controls.Add(square, col, row);
+				}
+			}
+
+			panelGrid.Controls.Add(tableOverlayGrid);
+			tableOverlayGrid.BringToFront(); // Ensure overlay is above
+		}
+		private void GenerateBaseGrid()
+		{
+			tableBaseGrid = new TableLayoutPanel
+			{
+				RowCount = GridSize,
+				ColumnCount = GridSize,
+				AutoSize = true,
+				Location = new Point(0, 0)
+			};
+
+			for (int i = 0; i < GridSize; i++)
+			{
+				tableBaseGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, squareSize));
+				tableBaseGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, squareSize));
 			}
 
 			for (int row = 0; row < GridSize; row++)
@@ -51,25 +76,18 @@ namespace SudokuSolver
 						values.Add(j + 1);
 					}
 
-					var square = new GridSquare(row + 1, col + 1, values);
-
-					// Optional: add click to show list
-					square.Click += (s, e) =>
+					var square = new GridSquare(row + 1, col + 1, values)
 					{
-						var btn = s as GridSquare;
-						string valueList = string.Join(", ", btn.Values);
-						MessageBox.Show($"Row: {btn.RowID}, Col: {btn.ColID}, Values: {valueList}");
+						Visible = true
 					};
-
-					table.Controls.Add(square, col, row);
+					tableBaseGrid.Controls.Add(square, col, row);
 				}
 			}
-
-			panelGrid.Controls.Add(table);
-			panelGrid.ResumeLayout();
+			
+			panelGrid.Controls.Add(tableBaseGrid);
 
 			// Resize the form based on grid dimensions
-			int squareSize = 75;      // Match button size
+			
 			int margin = 2;           // 1px on each side
 			int totalSize = (squareSize + margin * 2) * GridSize;
 
