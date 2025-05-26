@@ -1,2 +1,5 @@
-# Ignore all .vsidx files
+# Ignore files
 *.vsidx
+*.dll
+*.exe
+*.cache
