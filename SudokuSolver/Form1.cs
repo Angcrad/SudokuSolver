@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -28,8 +29,7 @@ namespace SudokuSolver
 			updateTimer.Tick += UpdateLoop;
 			updateTimer.Start();
 		}
-
-		private void UpdateLoop(object sender, EventArgs e)
+		private void ReSetCandidates()
 		{
 			for (int r = 0; r < 9; r++)
 			{
@@ -42,9 +42,37 @@ namespace SudokuSolver
 					if (gridSquares[r, c].Value == 0)
 					{
 						gridSquares[r, c].Values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-						gridSquares[r, c].Text = GridSquare.FormatValues(gridSquares[r, c].Values, gridSquares[r, c].Value);
 					}
-					HandleValueSet(r, c, gridSquares[r, c].Value);//try using checkrow here
+				}
+			}
+		}
+		private void UpdateLoop(object sender, EventArgs e)
+		{
+			ReSetCandidates();
+			CheckRow();
+			CheckCol();
+			CheckBox(0, 0);
+			CheckBox(3, 0);
+			CheckBox(6, 0);
+			CheckBox(0, 3);
+			CheckBox(3, 3);
+			CheckBox(6, 3);
+			CheckBox(0, 6);
+			CheckBox(3, 6);
+			CheckBox(6, 6);
+			SetText();
+		}
+		private void SetText()
+		{
+			for (int row = 0; row < 9; row++)
+			{
+				for (int col = 0; col < 9; col++)
+				{
+					if (gridSquares[row, col].Value == 5 && row == 2 && col == 2)
+					{
+						row = row;
+					}
+					gridSquares[row, col].Text = GridSquare.FormatValues(gridSquares[row, col].Values, gridSquares[row, col].Value);
 				}
 			}
 		}
@@ -90,7 +118,7 @@ namespace SudokuSolver
 			{
 				if (value != 0)
 				{
-					checkRow(row, c, value);
+					//checkRow(row, c, value);
 				}				
 			}
 			/*for (int r = 0; r < 9; r++)
@@ -109,32 +137,65 @@ namespace SudokuSolver
 				}
 			}*/
 		}
-		private bool checkRow(int row, int col, int value)
+		private void CheckRow()
 		{
-			List<int> tempList = new List<int>();
-			int tempInt = gridSquares[row, col].Value;
-			foreach (int i in gridSquares[row, col].Values)
+			for (int row = 0; row < 9; row++)
 			{
-				tempList.Add(i);
-			}
-			if (gridSquares[row, col].Values.Count() > 0)
-			{
-				if(gridSquares[row, col].Values[value - 1] != 0)
+				for (int col = 0; col < 9; col++)
 				{
-					gridSquares[row, col].Values[value - 1] = 0;
-					tempList[value - 1] = 0;
-					gridSquares[row, col].Text = GridSquare.FormatValues(gridSquares[row, col].Values, value);
+					if (gridSquares[row, col].Value != 0)
+					{
+						for (int c = 0; c < 9; c++)
+						{
+							if (gridSquares[row, c].Values.Count > 0)
+							{
+								gridSquares[row, c].Values.Remove(gridSquares[row, col].Value);
+							}
+						}
+					}
 				}
 			}
-			return false;
 		}
-		private bool checkCol()
+		private void CheckCol()
 		{
-			return false; 
+			for (int row = 0; row < 9; row++)
+			{
+				for (int col = 0; col < 9; col++)
+				{
+					if (gridSquares[row, col].Value != 0)
+					{
+						for (int r = 0; r < 9; r++)
+						{
+							if (gridSquares[r, col].Values.Count > 0)
+							{
+								gridSquares[r, col].Values.Remove(gridSquares[row, col].Value);
+							}
+						}
+					}
+				}
+			}
 		}
-		private bool checkBox()
+		private void CheckBox(int fila, int columna)
 		{
-			return false;
+			for (int row = fila; row < fila + 3; row++)
+			{
+				for (int col = columna; col < columna + 3; col++)
+				{
+					if (gridSquares[row, col].Value != 0)
+					{
+						for (int r = fila; r < fila + 3; r++)
+						{
+							for (int c = columna; c < columna + 3; c++)
+							{
+								if (gridSquares[r, c].Values.Count > 0)
+								{
+									gridSquares[r, c].Values.Remove(gridSquares[row, col].Value);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		private bool SameBox(int r1, int c1, int r2, int c2)
 		{
@@ -172,13 +233,13 @@ namespace SudokuSolver
 		{
 			if (selectedSquare != null)
 			{
-				if (keyData >= Keys.D1 && keyData <= Keys.D9)
+				if (keyData >= Keys.D0 && keyData <= Keys.D9)
 				{
 					int value = keyData - Keys.D0;
 					selectedSquare.SetValue(value);
 					return true;
 				}
-				else if (keyData >= Keys.NumPad1 && keyData <= Keys.NumPad9)
+				else if (keyData >= Keys.NumPad0 && keyData <= Keys.NumPad9)
 				{
 					int value = keyData - Keys.NumPad0;
 					selectedSquare.SetValue(value);

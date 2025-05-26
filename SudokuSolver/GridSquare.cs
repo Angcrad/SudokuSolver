@@ -32,22 +32,25 @@ namespace SudokuSolver
 		public static String FormatValues(List<int> values, int value)
 		{
 			string temp = "";
-			int tempVal = 0;
 			int j = 0;
 			if (values.Count != 0)
 			{
 				foreach (int i in values)
 				{
-					tempVal = values[j++];
-					if (tempVal == 0)
+					while (++j < i)
 					{
+						temp += "  ";
+						if (j % 3 == 0)
+						{
+							temp += "\n";
+						}
+					}
+					//tempVal = values[j++];
+					if (values.Contains(j))
+					{
+						temp += j.ToString();
 						temp += " ";
 					}
-					else
-					{
-						temp += tempVal.ToString();
-					}
-					temp += " ";
 					if (j % 3 == 0)
 					{
 						temp += "\n";
@@ -57,7 +60,11 @@ namespace SudokuSolver
 			else
 			{
 				temp = value.ToString();
-			}				
+			}
+			while (temp.Length > 1 && temp.Length < 20)
+			{
+				temp += " ";
+			}
 			return temp;
 		}
 		public void SetSelected(bool selected)
