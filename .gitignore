@@ -7,3 +7,4 @@
 # Ignore folders
 SudokuSolver/bin/
 SudokuSolver/obj/
+.vs/
