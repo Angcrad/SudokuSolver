@@ -47,6 +47,26 @@ namespace SudokuSolver
 				Helpers.CheckBox(6, 6, ref gridSquares);
 				Helpers.SetText(ref gridSquares);
 			}
+			if(Helpers.IsAllRight(gridSquares))
+			{	
+				if(
+				Helpers.SingleCandidate(ref gridSquares)
+				|| Helpers.IsOnlyNumberInRow(ref gridSquares)
+				|| Helpers.IsOnlyNumberInColumn(ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(0, 0, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(3, 0, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(6, 0, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(0, 3, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(3, 3, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(6, 3, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(0, 6, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(3, 6, ref gridSquares)
+				|| Helpers.IsOnlyNumberInBox(6, 6, ref gridSquares)
+					)
+				{
+					//do nothing, short-circuit evaluation
+				}
+			}
 		}
 		
 		private void InitializeGrid()

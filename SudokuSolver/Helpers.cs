@@ -22,6 +22,124 @@ namespace SudokuSolver
 				}
 			}
 		}
+		public static bool IsOnlyNumberInRow(ref GridSquare[,] gridSquares)
+		{
+			int cont = 0;
+			for (int row = 0; row < 9; row++)
+			{
+				for (int col = 0; col < 9; col++)
+				{
+					int tempInt = 0;
+					foreach (int i in gridSquares[row, col].Values)
+					{
+						cont = 0;
+						for (int c = 0; c < 9; c++)
+						{
+							if (gridSquares[row, c].Values.Contains(i))
+							{
+								cont++;
+							}
+						}
+						if (cont == 1)
+						{
+							tempInt = i;
+							break;
+						}
+					}
+					if (cont == 1)
+					{
+						gridSquares[row, col].SetValue(tempInt);
+						 return true;
+					}
+				}
+			}
+			return false;
+		}
+		public static bool IsOnlyNumberInColumn(ref GridSquare[,] gridSquares)
+		{
+			int cont = 0;
+			for (int row = 0; row < 9; row++)
+			{
+				for (int col = 0; col < 9; col++)
+				{
+					int tempInt = 0;
+					foreach (int i in gridSquares[row, col].Values)
+					{
+						cont = 0;
+						for (int r = 0; r < 9; r++)
+						{
+							if (gridSquares[r, col].Values.Contains(i))
+							{
+								cont++;
+							}
+						}
+						if (cont == 1)
+						{
+							tempInt = i;
+							break;
+						}
+					}
+					if (cont == 1)
+					{
+						gridSquares[row, col].SetValue(tempInt);
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		public static bool IsOnlyNumberInBox(int fila, int columna, ref GridSquare[,] gridSquares)
+		{
+			int cont = 0;
+			for (int row = fila; row < fila + 3; row++)
+			{
+				for (int col = columna; col < columna + 3; col++)
+				{
+					int tempInt = 0;
+					foreach (int i in gridSquares[row, col].Values)
+					{
+						cont = 0;
+						for (int r = fila; r < fila + 3; r++)
+						{
+							for (int c = columna; c < columna + 3; c++)
+							{
+								if (gridSquares[r, c].Values.Contains(i))
+								{
+									cont++;
+								}
+							}
+						}
+						if (cont == 1)
+						{
+							tempInt = i;
+							break;
+						}
+					}
+					if (cont == 1)
+					{
+						gridSquares[row, col].SetValue(tempInt);
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		public static bool SingleCandidate(ref GridSquare[,] gridSquares)
+		{
+			for (int row = 0; row < 9; row++)
+			{
+				for (int col = 0; col < 9; col++)
+				{
+					
+					if (gridSquares[row, col].Values.Count == 1)
+					{
+						gridSquares[row, col].SetValue(gridSquares[row, col].Values[0]);
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 		public static void SetText(ref GridSquare[,] gridSquares)
 		{
 			for (int row = 0; row < 9; row++)
