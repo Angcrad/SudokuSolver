@@ -41,20 +41,17 @@ namespace SudokuSolver
 				table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75));
 			}
 
-			var rand = new Random();
-
 			for (int row = 0; row < GridSize; row++)
 			{
 				for (int col = 0; col < GridSize; col++)
 				{
-					// Each square gets its own list of random integers
 					var values = new List<int>();
-					for (int j = 0; j < 9; j++) // You can change this number
+					for (int j = 0; j < 9; j++)
 					{
 						values.Add(j + 1);
 					}
 
-					var square = new GridSquare(row, col, values);
+					var square = new GridSquare(row + 1, col + 1, values);
 
 					// Optional: add click to show list
 					square.Click += (s, e) =>

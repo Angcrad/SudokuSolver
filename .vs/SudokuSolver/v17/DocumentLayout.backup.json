@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|d:\\users\\angcrad\\documents\\github\\sudokusolver\\sudokusolver\\gridsquare.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|solutionrelative:sudokusolver\\gridsquare.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|d:\\users\\angcrad\\documents\\github\\sudokusolver\\sudokusolver\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|solutionrelative:sudokusolver\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|d:\\users\\angcrad\\documents\\github\\sudokusolver\\sudokusolver\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|solutionrelative:sudokusolver\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|d:\\users\\angcrad\\documents\\github\\sudokusolver\\sudokusolver\\gridsquare.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|solutionrelative:sudokusolver\\gridsquare.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EB71B5D6-2898-4F87-AF45-30DCEB1FA4CE}|SudokuSolver\\SudokuSolver.csproj|d:\\users\\angcrad\\documents\\github\\sudokusolver\\sudokusolver\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -30,17 +30,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Form1.cs",
               "DocumentMoniker": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.cs",
               "RelativeDocumentMoniker": "SudokuSolver\\Form1.cs",
-              "ToolTip": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.cs",
-              "RelativeToolTip": "SudokuSolver\\Form1.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAgwDUAAAAMAAAAAAAAAA==",
+              "ToolTip": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.cs*",
+              "RelativeToolTip": "SudokuSolver\\Form1.cs*",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAgwDUAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T01:22:35.212Z",
               "EditorCaption": ""
@@ -60,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "SudokuSolver\\Form1.Designer.cs",
@@ -73,13 +73,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "GridSquare.cs",
               "DocumentMoniker": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\GridSquare.cs",
               "RelativeDocumentMoniker": "SudokuSolver\\GridSquare.cs",
-              "ToolTip": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\GridSquare.cs*",
-              "RelativeToolTip": "SudokuSolver\\GridSquare.cs*",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACQAAAAFAAAAAAAAAA==",
+              "ToolTip": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\GridSquare.cs",
+              "RelativeToolTip": "SudokuSolver\\GridSquare.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T01:09:44.853Z",
               "EditorCaption": ""
@@ -90,8 +90,8 @@
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.cs",
               "RelativeDocumentMoniker": "SudokuSolver\\Form1.cs",
-              "ToolTip": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.cs [Design]",
-              "RelativeToolTip": "SudokuSolver\\Form1.cs [Design]",
+              "ToolTip": "D:\\Users\\Angcrad\\Documents\\GitHub\\SudokuSolver\\SudokuSolver\\Form1.cs [Design]*",
+              "RelativeToolTip": "SudokuSolver\\Form1.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T01:09:05.008Z",
               "EditorCaption": " [Design]"

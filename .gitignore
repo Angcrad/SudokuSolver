@@ -3,3 +3,7 @@
 *.dll
 *.exe
 *.cache
+*.suo
+# Ignore folders
+SudokuSolver/bin/
+SudokuSolver/obj/
