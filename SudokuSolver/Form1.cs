@@ -66,7 +66,7 @@ namespace SudokuSolver
 				for (int col = 0; col < GridSize; col++)
 				{
 					var values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // placeholder
-					var gridSquare = new GridSquare(row, col, values, 0)
+					var gridSquare = new GridSquare(row, col, values, 0, new Font("Consolas", 12, FontStyle.Bold))
 					{
 						Location = new Point(col * spacing, row * spacing),
 						FlatStyle = FlatStyle.Flat,

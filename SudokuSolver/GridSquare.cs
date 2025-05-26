@@ -14,16 +14,17 @@ namespace SudokuSolver
 		public int ColID { get; set; }
 		public List<int> Values { get; set; }
 		public int Value { get; set; }
+		public Font Fuente { get; set; }
 
-		public GridSquare(int row, int col, List<int> values, int value)
+		public GridSquare(int row, int col, List<int> values, int value, Font font)
 		{
 			RowID = row;
 			ColID = col;
 			Values = values;
 			Value = value;
+			Fuente = font;
 
 			this.Text = FormatValues(Values, Value);
-			this.Font = new Font("Consolas", 12, FontStyle.Bold);
 			this.TextAlign = ContentAlignment.MiddleCenter;
 			this.Size = new Size(75, 75);
 			this.Margin = new Padding(1);
@@ -69,7 +70,7 @@ namespace SudokuSolver
 		}
 		public void SetSelected(bool selected)
 		{
-			this.BackColor = selected ? Color.LightBlue : SystemColors.Control;
+			this.BackColor = selected ? Color.LightBlue : Color.White;
 		}
 
 		public void SetValue(int value)

@@ -29,6 +29,14 @@ namespace SudokuSolver
 				for (int col = 0; col < 9; col++)
 				{
 					gridSquares[row, col].Text = GridSquare.FormatValues(gridSquares[row, col].Values, gridSquares[row, col].Value);
+					if (gridSquares[row, col].Text.Length == 1)
+					{
+						gridSquares[row, col].Font = new Font("Consolas", 30, FontStyle.Bold);
+					}
+					else
+					{
+						gridSquares[row, col].Font = new Font("Consolas", 12, FontStyle.Bold);
+					}
 				}
 			}
 		}
@@ -104,6 +112,7 @@ namespace SudokuSolver
 			{
 				for (int col = 0; col < 9; col++)
 				{
+					gridSquares[row, col].BackColor = Color.White;
 					valuesList.Clear();
 					if (gridSquares[row, col].Value != 0)
 					{
@@ -116,11 +125,14 @@ namespace SudokuSolver
 						}
 						if(valuesList.Count > 0)
 						{
-							//return valuesList.Count == valuesList.Distinct().Count();
 							flag = flag && valuesList.Count == valuesList.Distinct().Count();
 							if (!flag)
 							{
-								int tempint = 0;
+								for (int i = 0; i < 9; i++)
+								{
+									gridSquares[row, i].BackColor = Color.Red;
+								}
+								return flag;
 							}
 						}
 					}
@@ -136,6 +148,7 @@ namespace SudokuSolver
 			{
 				for (int col = 0; col < 9; col++)
 				{
+					gridSquares[row, col].BackColor = Color.White;
 					valuesList.Clear();
 					if (gridSquares[row, col].Value != 0)
 					{
@@ -147,11 +160,14 @@ namespace SudokuSolver
 							}
 							if (valuesList.Count > 0)
 							{
-								//return valuesList.Count == valuesList.Distinct().Count();
 								flag = flag && valuesList.Count == valuesList.Distinct().Count();
 								if (!flag)
 								{
-									int tempint = 0;
+									for (int i = 0; i < 9; i++)
+									{
+										gridSquares[i, col].BackColor = Color.Red;
+									}
+									return flag;
 								}
 							}
 						}
@@ -180,6 +196,7 @@ namespace SudokuSolver
 			{
 				for (int col = columna; col < columna + 3; col++)
 				{
+					gridSquares[row, col].BackColor = Color.White;
 					valuesList.Clear();
 					if (gridSquares[row, col].Value != 0)
 					{
@@ -193,11 +210,17 @@ namespace SudokuSolver
 								}
 								if (valuesList.Count > 0)
 								{
-									//return valuesList.Count == valuesList.Distinct().Count();
 									flag = flag && valuesList.Count == valuesList.Distinct().Count();
 									if (!flag)
 									{
-										int tempint = 0;
+										for (int i = fila; i < fila + 3; i++)
+										{
+											for (int j = columna; j < columna + 3; j++)
+											{
+												gridSquares[i, j].BackColor = Color.Red;
+											}
+										}
+										return flag;
 									}
 								}
 							}
