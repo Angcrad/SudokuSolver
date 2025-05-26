@@ -12,35 +12,60 @@ namespace SudokuSolver
 		public int RowID { get; set; }
 		public int ColID { get; set; }
 		public List<int> Values { get; set; }
+		public int Value { get; set; }
 
-		public GridSquare(int row, int col, List<int> values)
+		public GridSquare(int row, int col, List<int> values, int value)
 		{
 			RowID = row;
 			ColID = col;
 			Values = values;
+			Value = value;
 
-			this.Text = FormatValues(values);
+			this.Text = FormatValues(Values, Value);
 			this.Font = new Font("Consolas", 12, FontStyle.Bold);
 			this.TextAlign = ContentAlignment.MiddleCenter;
 			this.Size = new Size(75, 75);
 			this.Margin = new Padding(1);
-
+			Value = value;
 		}
-		private String FormatValues(List<int> values)
+		private static String FormatValues(List<int> values, int value)
 		{
 			string temp = "";
 			int j = 0;
-			foreach(int i in values)
+			if (values.Count != 0)
 			{
-				temp += values[j++].ToString();
-				temp += " ";
-				if (j % 3 == 0)
+				foreach (int i in values)
 				{
-					temp += "\n";
+					temp += values[j++].ToString();
+					temp += " ";
+					if (j % 3 == 0)
+					{
+						temp += "\n";
+					}
 				}
 			}
+			else
+			{
+				temp = value.ToString();
+			}				
 			return temp;
 		}
+		public void SetSelected(bool selected)
+		{
+			this.BackColor = selected ? Color.LightBlue : SystemColors.Control;
+		}
+
+		public void SetValue(int value)
+		{
+			Value = value;
+			Values = new List<int>(); // Clear candidates
+			if (Value == 0)
+			{
+				Values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // placeholder
+			}
+			this.Text = FormatValues(Values, Value);
+		}
+
 	}
 
 }

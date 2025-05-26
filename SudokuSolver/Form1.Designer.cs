@@ -28,32 +28,18 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			panelGrid = new Panel();
 			SuspendLayout();
-			// 
-			// panelGrid
-			// 
-			panelGrid.AutoScroll = true;
-			panelGrid.AutoSize = true;
-			panelGrid.Location = new Point(0, 0);
-			panelGrid.Name = "panelGrid";
-			panelGrid.Size = new Size(450, 450);
-			panelGrid.TabIndex = 0;
 			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(1134, 645);
-			Controls.Add(panelGrid);
 			Name = "Form1";
 			Text = "Form1";
 			ResumeLayout(false);
-			PerformLayout();
 		}
 
 		#endregion
-
-		private Panel panelGrid;
 	}
 }
