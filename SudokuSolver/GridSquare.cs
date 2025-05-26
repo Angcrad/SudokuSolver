@@ -9,6 +9,7 @@ namespace SudokuSolver
 {
 	public class GridSquare : Button
 	{
+		//public Action<int, int, int> OnValueSet; // (row, col, value)
 		public int RowID { get; set; }
 		public int ColID { get; set; }
 		public List<int> Values { get; set; }
@@ -28,15 +29,24 @@ namespace SudokuSolver
 			this.Margin = new Padding(1);
 			Value = value;
 		}
-		private static String FormatValues(List<int> values, int value)
+		public static String FormatValues(List<int> values, int value)
 		{
 			string temp = "";
+			int tempVal = 0;
 			int j = 0;
 			if (values.Count != 0)
 			{
 				foreach (int i in values)
 				{
-					temp += values[j++].ToString();
+					tempVal = values[j++];
+					if (tempVal == 0)
+					{
+						temp += " ";
+					}
+					else
+					{
+						temp += tempVal.ToString();
+					}
 					temp += " ";
 					if (j % 3 == 0)
 					{
@@ -58,12 +68,16 @@ namespace SudokuSolver
 		public void SetValue(int value)
 		{
 			Value = value;
-			Values = new List<int>(); // Clear candidates
+			Values.Clear();
 			if (Value == 0)
 			{
 				Values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // placeholder
 			}
 			this.Text = FormatValues(Values, Value);
+			if (value > 0)
+			{ 
+				//OnValueSet?.Invoke(RowID, ColID, value);
+			}
 		}
 
 	}

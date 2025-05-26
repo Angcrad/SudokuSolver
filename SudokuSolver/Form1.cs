@@ -13,13 +13,41 @@ namespace SudokuSolver
 		private const int MarginSize = 1;
 		private Panel panelGrid;
 		private GridSquare selectedSquare;
-
+		private GridSquare[,] gridSquares = new GridSquare[9, 9];
+		private System.Windows.Forms.Timer updateTimer;
 		public Form1()
 		{
 			InitializeComponent();
 			InitializeGrid();
+			InitializeTimer();
+		}
+		private void InitializeTimer()
+		{
+			updateTimer = new System.Windows.Forms.Timer();
+			updateTimer.Interval = 100; // Run approximately 60 times per second (16ms per tick)
+			updateTimer.Tick += UpdateLoop;
+			updateTimer.Start();
 		}
 
+		private void UpdateLoop(object sender, EventArgs e)
+		{
+			for (int r = 0; r < 9; r++)
+			{
+				for (int c = 0; c < 9; c++)
+				{
+					if (r == 4 && c == 4)
+					{
+						r = r;
+					}
+					if (gridSquares[r, c].Value == 0)
+					{
+						gridSquares[r, c].Values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+						gridSquares[r, c].Text = GridSquare.FormatValues(gridSquares[r, c].Values, gridSquares[r, c].Value);
+					}
+					HandleValueSet(r, c, gridSquares[r, c].Value);//try using checkrow here
+				}
+			}
+		}
 		private void InitializeGrid()
 		{
 			int spacing = CellSize + 2 * MarginSize;
@@ -44,8 +72,10 @@ namespace SudokuSolver
 						FlatAppearance = { BorderSize = 1, BorderColor = Color.LightGray }
 					};
 					gridSquare.Click += GridSquare_Click;
-
+					gridSquares[row, col] = gridSquare;
 					panelGrid.Controls.Add(gridSquare);
+					//gridSquare.OnValueSet = HandleValueSet;
+
 				}
 			}
 
@@ -54,6 +84,63 @@ namespace SudokuSolver
 			// Resize form to fit grid
 			this.ClientSize = new Size(panelGrid.Right + 10, panelGrid.Bottom + 10);
 		}
+		private void HandleValueSet(int row, int col, int value)
+		{
+			for (int c = 0; c < 9; c++)
+			{
+				if (value != 0)
+				{
+					checkRow(row, c, value);
+				}				
+			}
+			/*for (int r = 0; r < 9; r++)
+			{
+				for (int c = 0; c < 9; c++)
+				{
+					//gridSquares[r, c].Values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+					if ((r == row || c == col || SameBox(row, col, r, c)) && gridSquares[r, c].Value == 0)						
+					{
+						if (gridSquares[r, c].Values.Contains(value) && value != 0)
+						{
+							gridSquares[r, c].Values[value - 1] = 0;
+							gridSquares[r, c].Text = GridSquare.FormatValues(gridSquares[r, c].Values, value);
+						}
+					}
+				}
+			}*/
+		}
+		private bool checkRow(int row, int col, int value)
+		{
+			List<int> tempList = new List<int>();
+			int tempInt = gridSquares[row, col].Value;
+			foreach (int i in gridSquares[row, col].Values)
+			{
+				tempList.Add(i);
+			}
+			if (gridSquares[row, col].Values.Count() > 0)
+			{
+				if(gridSquares[row, col].Values[value - 1] != 0)
+				{
+					gridSquares[row, col].Values[value - 1] = 0;
+					tempList[value - 1] = 0;
+					gridSquares[row, col].Text = GridSquare.FormatValues(gridSquares[row, col].Values, value);
+				}
+			}
+			return false;
+		}
+		private bool checkCol()
+		{
+			return false; 
+		}
+		private bool checkBox()
+		{
+			return false;
+		}
+		private bool SameBox(int r1, int c1, int r2, int c2)
+		{
+			return (r1 / 3 == r2 / 3) && (c1 / 3 == c2 / 3);
+		}
+
 		private void DrawGridLines(object sender, PaintEventArgs e)
 		{
 			int spacing = CellSize + 2 * MarginSize;
