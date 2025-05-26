@@ -19,20 +19,24 @@ namespace SudokuSolver
 			ColID = col;
 			Values = values;
 
-			this.Text = values.Count > 0 ? ConcatenateValues(values) : string.Empty;
-			this.Width = 80;
-			this.Height = 80;
+			this.Text = FormatValues(values);
+			this.Font = new Font("Consolas", 12, FontStyle.Bold);
+			this.TextAlign = ContentAlignment.MiddleCenter;
+			this.Size = new Size(75, 75);
 			this.Margin = new Padding(1);
-			this.Font = new Font("Segoe UI", 13, FontStyle.Bold);
 		}
-		private String ConcatenateValues(List<int> values)
+		private String FormatValues(List<int> values)
 		{
 			string temp = "";
 			int j = 0;
 			foreach(int i in values)
 			{
 				temp += values[j++].ToString();
-				temp += "  ";
+				temp += " ";
+				if (j % 3 == 0)
+				{
+					temp += "\n";
+				}
 			}
 			return temp;
 		}
