@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing;
 using System.Windows.Forms;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 namespace SudokuSolver
 {
 
@@ -18,6 +19,8 @@ namespace SudokuSolver
 		private System.Windows.Forms.Timer updateTimer;
 		private Button ButtonReset;
 		private Button ButtonUndo;
+		private Button buttonLoad;
+
 		public Form1()
 		{
 			InitializeComponent();
@@ -34,37 +37,56 @@ namespace SudokuSolver
 		
 		private void UpdateLoop(object sender, EventArgs e)
 		{
-			if(Helpers.IsAllRight(gridSquares))
+			if(HelpersErrors.IsAllRight(gridSquares))
 			{
-				Helpers.ReSetCandidates(ref gridSquares);
-				Helpers.CheckRow(ref gridSquares);
-				Helpers.CheckCol(ref gridSquares);
-				Helpers.CheckBox(0, 0, ref gridSquares);
-				Helpers.CheckBox(3, 0, ref gridSquares);
-				Helpers.CheckBox(6, 0, ref gridSquares);
-				Helpers.CheckBox(0, 3, ref gridSquares);
-				Helpers.CheckBox(3, 3, ref gridSquares);
-				Helpers.CheckBox(6, 3, ref gridSquares);
-				Helpers.CheckBox(0, 6, ref gridSquares);
-				Helpers.CheckBox(3, 6, ref gridSquares);
-				Helpers.CheckBox(6, 6, ref gridSquares);
-				Helpers.SetText(ref gridSquares);
+				for (int row = 0; row < 9; row++)
+				{
+					for (int col = 0; col < 9; col++)
+					{
+						if (!gridSquares[row, col].IsSelected)
+						{
+							gridSquares[row, col].BackColor = Color.White;
+						}
+					}
+				}
+				HelpersCandidates.ReSetCandidates(ref gridSquares);
+				HelpersCandidates.CheckRow(ref gridSquares);
+				HelpersCandidates.CheckCol(ref gridSquares);
+				HelpersCandidates.CheckBox(0, 0, ref gridSquares);
+				HelpersCandidates.CheckBox(3, 0, ref gridSquares);
+				HelpersCandidates.CheckBox(6, 0, ref gridSquares);
+				HelpersCandidates.CheckBox(0, 3, ref gridSquares);
+				HelpersCandidates.CheckBox(3, 3, ref gridSquares);
+				HelpersCandidates.CheckBox(6, 3, ref gridSquares);
+				HelpersCandidates.CheckBox(0, 6, ref gridSquares);
+				HelpersCandidates.CheckBox(3, 6, ref gridSquares);
+				HelpersCandidates.CheckBox(6, 6, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(0, 0, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(3, 0, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(6, 0, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(0, 3, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(3, 3, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(6, 3, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(0, 6, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(3, 6, ref gridSquares);
+				HelpersCandidates.IsOnlyInOne(6, 6, ref gridSquares);
+				HelpersCandidates.SetText(ref gridSquares);
 			}
-			if(Helpers.IsAllRight(gridSquares))
+			if(HelpersErrors.IsAllRight(gridSquares))
 			{	
 				if(
-				Helpers.SingleCandidate(ref gridSquares)
-				|| Helpers.IsOnlyNumberInRow(ref gridSquares)
-				|| Helpers.IsOnlyNumberInColumn(ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(0, 0, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(3, 0, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(6, 0, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(0, 3, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(3, 3, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(6, 3, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(0, 6, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(3, 6, ref gridSquares)
-				|| Helpers.IsOnlyNumberInBox(6, 6, ref gridSquares)
+				HelpersCandidates.SingleCandidate(ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInRow(ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInColumn(ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(0, 0, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(3, 0, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(6, 0, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(0, 3, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(3, 3, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(6, 3, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(0, 6, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(3, 6, ref gridSquares)
+				|| HelpersLogic.IsOnlyNumberInBox(6, 6, ref gridSquares)
 					)
 				{
 					//do nothing, short-circuit evaluation
@@ -132,12 +154,32 @@ namespace SudokuSolver
 			this.Width = ButtonReset.Right + buttonSpacing + 20;
 			this.Height = Math.Max(panelGrid.Bottom, ButtonUndo.Bottom) + buttonSpacing;
 
+			buttonLoad = new Button
+			{
+				Text = "Load Puzzle",
+				Location = new Point(ButtonUndo.Left, ButtonUndo.Bottom + 10),
+				Size = new Size(100, 30)
+			};
+			buttonLoad.Click += (s, e) =>
+			{
+				using (OpenFileDialog ofd = new OpenFileDialog())
+				{
+					ofd.Filter = "JSON Files (*.json)|*.json";
+					if (ofd.ShowDialog() == DialogResult.OK)
+					{
+						history.Clear();
+						HelpersLogic.LoadPuzzleFromJson(ofd.FileName, ref gridSquares);
+					}
+				}
+			};
+			this.Controls.Add(buttonLoad);
+
 			for (int row = 0; row < GridSize; row++)
 			{
 				for (int col = 0; col < GridSize; col++)
 				{
 					var values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // placeholder
-					var gridSquare = new GridSquare(row, col, values, 0, new Font("Consolas", 12, FontStyle.Bold))
+					var gridSquare = new GridSquare(row, col, values, 0, new Font("Consolas", 12, FontStyle.Bold), false)
 					{
 						Location = new Point(col * spacing, row * spacing),
 						FlatStyle = FlatStyle.Flat,
@@ -215,7 +257,7 @@ namespace SudokuSolver
 				for (int j = 0; j < 9; j++)
 				{
 					var values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // placeholder
-					var gridSquare = new GridSquare(i, j, values, 0, new Font("Consolas", 12, FontStyle.Bold));
+					var gridSquare = new GridSquare(i, j, values, 0, new Font("Consolas", 12, FontStyle.Bold), false);
 					auxSquare[i,j] = gridSquare;
 					auxSquare[i, j].SetValue(gridSquares[i, j].Value);
 				}
