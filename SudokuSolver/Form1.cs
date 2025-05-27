@@ -14,7 +14,10 @@ namespace SudokuSolver
 		private Panel panelGrid;
 		private GridSquare selectedSquare;
 		private GridSquare[,] gridSquares = new GridSquare[9, 9];
+		private static List<GridSquare[,]> history = new List<GridSquare[,]>();
 		private System.Windows.Forms.Timer updateTimer;
+		private Button ButtonReset;
+		private Button ButtonUndo;
 		public Form1()
 		{
 			InitializeComponent();
@@ -68,18 +71,66 @@ namespace SudokuSolver
 				}
 			}
 		}
-		
+		private void ButtonReset_Click(object sender, EventArgs e)
+		{
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					gridSquares[i, j].SetValue(0);
+				}
+			}
+			history.Clear();
+		}
+
+		private void ButtonUndo_Click(object sender, EventArgs e)
+		{
+			if(history.Count > 1)
+			{
+				history.RemoveAt(history.Count - 1);
+				for (int i = 0; i < 9; i++)
+				{
+					for (int j = 0; j < 9; j++)
+					{
+						gridSquares[i, j].SetValue(history[history.Count - 1][i, j].Value);
+					}
+				}
+			}
+		}
 		private void InitializeGrid()
 		{
 			int spacing = CellSize + 2 * MarginSize;
-
 			panelGrid = new Panel
 			{
 				Location = new Point(10, 10),
 				Size = new Size(GridSize * spacing, GridSize * spacing),
 				BackColor = Color.White
 			};
+			int buttonSpacing = 20;
+			int buttonWidth = 100;
+			int buttonHeight = 30;
+			int buttonX = panelGrid.Right + buttonSpacing;
+			int buttonY = panelGrid.Top;
+			ButtonReset = new Button
+			{
+				Text = "Reset",
+				Location = new Point(buttonX, buttonY),
+				Size = new Size(buttonWidth, buttonHeight)
+			};
+			ButtonReset.Click += ButtonReset_Click;
+			this.Controls.Add(ButtonReset);
+
+			ButtonUndo = new Button
+			{
+				Text = "Undo",
+				Location = new Point(buttonX, buttonY + buttonHeight + 10),
+				Size = new Size(buttonWidth, buttonHeight)
+			};
+			ButtonUndo.Click += ButtonUndo_Click;
+			this.Controls.Add(ButtonUndo);
 			this.Controls.Add(panelGrid);
+			this.Width = ButtonReset.Right + buttonSpacing + 20;
+			this.Height = Math.Max(panelGrid.Bottom, ButtonUndo.Bottom) + buttonSpacing;
 
 			for (int row = 0; row < GridSize; row++)
 			{
@@ -101,7 +152,7 @@ namespace SudokuSolver
 			}
 			panelGrid.Paint += DrawGridLines;
 			// Resize form to fit grid
-			this.ClientSize = new Size(panelGrid.Right + 10, panelGrid.Bottom + 10);
+			this.ClientSize = new Size(ButtonReset.Right + buttonSpacing + 20, Math.Max(panelGrid.Bottom, ButtonUndo.Bottom) + buttonSpacing);
 		}
 		private void HandleValueSet(int row, int col, int value)
 		{
@@ -156,6 +207,21 @@ namespace SudokuSolver
 
 			this.ActiveControl = null; // avoid focusing the button
 		}
+		private static void AddToHistory(GridSquare[,] gridSquares)
+		{
+			GridSquare[,] auxSquare = new GridSquare[9, 9];
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					var values = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; // placeholder
+					var gridSquare = new GridSquare(i, j, values, 0, new Font("Consolas", 12, FontStyle.Bold));
+					auxSquare[i,j] = gridSquare;
+					auxSquare[i, j].SetValue(gridSquares[i, j].Value);
+				}
+			}
+			history.Add(auxSquare);
+		}
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			if (selectedSquare != null)
@@ -164,17 +230,20 @@ namespace SudokuSolver
 				{
 					int value = keyData - Keys.D0;
 					selectedSquare.SetValue(value);
+					AddToHistory(gridSquares);
 					return true;
 				}
 				else if (keyData >= Keys.NumPad0 && keyData <= Keys.NumPad9)
 				{
 					int value = keyData - Keys.NumPad0;
 					selectedSquare.SetValue(value);
+					AddToHistory(gridSquares);
 					return true;
 				}
 				else if (keyData == Keys.Back || keyData == Keys.Delete)
 				{
 					selectedSquare.SetValue(0);
+					AddToHistory(gridSquares);
 					return true;
 				}
 			}
